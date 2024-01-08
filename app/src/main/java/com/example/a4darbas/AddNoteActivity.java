@@ -27,30 +27,22 @@ public class AddNoteActivity extends Activity {
     }
 
     public void onBtnSaveAndCloseClick(View view) {
-        String noteToAdd = this.edNote.getText().toString();
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
+        String noteToAdd = edNote.getText().toString();
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(currentDate);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-
-
-        SharedPreferences sharedPref = this.getSharedPreferences(Constants.NOTES_FILE, this.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Constants.NOTES_FILE, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        Set<String> savedSet = sharedPref.getStringSet(Constants.NOTES_ARRAY_KEY, null);
-        Set<String> newSet = new HashSet<>();
-        if(savedSet != null) {
-            newSet.addAll(savedSet);
-        }
-        newSet.add(noteToAdd);
+        Set<String> savedSet = sharedPref.getStringSet(Constants.NOTES_ARRAY_KEY, new HashSet<>());
+        savedSet.add(noteToAdd);
 
         editor.putString(Constants.NOTE_KEY, noteToAdd);
         editor.putString(Constants.NOTE_KEY_DATE, formattedDate);
-        editor.putStringSet(Constants.NOTES_ARRAY_KEY, newSet);
+        editor.putStringSet(Constants.NOTES_ARRAY_KEY, savedSet);
         editor.apply();
 
         finish();
     }
-
 }

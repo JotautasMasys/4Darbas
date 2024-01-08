@@ -29,16 +29,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.lvNotes = findViewById(R.id.lvNotes);
-        this.adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.listNoteItems);
-        this.lvNotes.setAdapter(adapter);
+        initializeViews();
+    }
 
+    private void initializeViews() {
+        lvNotes = findViewById(R.id.lvNotes);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNoteItems);
+        lvNotes.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.notes_options_menu, menu);
+        getMenuInflater().inflate(R.menu.notes_options_menu, menu);
         return true;
     }
 
@@ -65,19 +67,27 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_note:
-                Intent i = new Intent(this, AddNoteActivity.class);
-                startActivity(i);
+                startAddNoteActivity();
                 return true;
             case R.id.remove_note:
                 return true;
             case R.id.update_note:
-                Toast.makeText(getApplicationContext(), R.string.msg_updated_clicked, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.msg_updated_clicked));
                 return true;
             case R.id.dunno:
-                Toast.makeText(getApplicationContext(), R.string.msg_dunno_clicked, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.msg_dunno_clicked));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startAddNoteActivity() {
+        Intent intent = new Intent(this, AddNoteActivity.class);
+        startActivity(intent);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }
