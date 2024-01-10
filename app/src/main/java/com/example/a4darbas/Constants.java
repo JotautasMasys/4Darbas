@@ -7,4 +7,6 @@ public class Constants {
     public static final String NOTES_ARRAY_KEY = "NotesArray";
     public static final String NOTES_FILE = "NotesFile";
 
+    public static final int ADD_NOTE_REQUEST_CODE = 1;
+
 }

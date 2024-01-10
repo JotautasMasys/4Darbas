@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getSharedPreferences(Constants.NOTES_FILE, this.MODE_PRIVATE);
         String lastSavedNote = sharedPref.getString(Constants.NOTE_KEY, "NA");
         String lastSavedNoteDate = sharedPref.getString(Constants.NOTE_KEY_DATE, "1900-01-01");
-        Set <String> savedSet = sharedPref.getStringSet(Constants.NOTES_ARRAY_KEY, null);
+        Set<String> savedSet = sharedPref.getStringSet(Constants.NOTES_ARRAY_KEY, null);
 
-        if(savedSet != null) {
+        if (savedSet != null) {
             this.listNoteItems.clear();
             this.listNoteItems.addAll(savedSet);
             this.adapter.notifyDataSetChanged();
@@ -67,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_note:
+                Intent i = new Intent(this, AddNoteActivity.class);
+                startActivity(i);
                 startAddNoteActivity();
                 return true;
             case R.id.remove_note:
+                removeNote();
                 return true;
             case R.id.update_note:
                 showToast(getString(R.string.msg_updated_clicked));
@@ -82,12 +85,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void startAddNoteActivity() {
         Intent intent = new Intent(this, AddNoteActivity.class);
+        startActivityForResult(intent, Integer.parseInt(String.valueOf(Constants.ADD_NOTE_REQUEST_CODE)));
         startActivity(intent);
     }
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private void removeNote() {
+        int positionToRemove = 0;
+
+        if (positionToRemove >= 0 && positionToRemove < listNoteItems.size()) {
+            String removedNote = listNoteItems.remove(positionToRemove);
+            adapter.notifyDataSetChanged();
+
+            Snackbar.make(lvNotes, String.format("Note removed: %s", removedNote), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(lvNotes, "Invalid position for removal", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.ADD_NOTE_REQUEST_CODE && resultCode == RESULT_OK) {
+        }
     }
 }

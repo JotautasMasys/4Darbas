@@ -17,8 +17,9 @@
 
     <EditText
         android:id="@+id/edNote"
-        android:layout_width="266dp"
-        android:layout_height="125dp"
+        android:layout_width="333dp"
+        android:layout_height="240dp"
+        android:text="Add Note"
         android:ems="10"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveAndClose"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,11 +29,25 @@
 
     <Button
         android:id="@+id/btnSaveAndClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_and_close"
+        android:layout_width="118dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="116dp"
         android:onClick="onBtnSaveAndCloseClick"
+        android:text="@string/save_and_close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/edNoteName"
+        android:layout_width="145dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
